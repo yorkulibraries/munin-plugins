@@ -3,8 +3,9 @@
 
 =head1 NAME
 
-tomcat_jvm - Plugin to monitor the memory of the JVM in Tomcat
-servers.
+tomcat_threads - Plugin to monitor the number of tomcat-threads
+running on the machine, and (in addition to a simple process count),
+separate then into "busy" or "idle" servers.
 
 =head1 CONFIGURATION
 
@@ -103,17 +104,16 @@ if(exists $ARGV[0] and $ARGV[0] eq "autoconf") {
 }
 
 if(exists $ARGV[0] and $ARGV[0] eq "config") {
-    print "graph_title Tomcat JVM memory\n";
-    print "graph_args --base 1024 -l 0\n";
-    print "graph_vlabel Bytes\n";
+    print "graph_title Tomcat threads\n";
+    print "graph_args --base 1000 -l 0\n";
+    print "graph_vlabel threads\n";
     print "graph_category tomcat\n";
-    print "graph_order free used max\n";
-    print "free.label free bytes\n";
-    print "free.draw AREA\n";
-    print "used.label used bytes \n";
-    print "used.draw STACK\n";
-    print "max.label maximum bytes\n";
-    print "max.draw LINE2\n";
+    print "graph_total total\n";
+    print "graph_order busy idle\n";
+    print "busy.label busy threads\n";
+    print "busy.draw AREA\n";
+    print "idle.label idle threads\n";
+    print "idle.draw STACK\n";
     exit 0;
 }
 

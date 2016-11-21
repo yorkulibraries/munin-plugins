@@ -3,7 +3,7 @@
 
 =head1 NAME
 
-tomcat_jvm - Plugin to monitor the memory of the JVM in Tomcat
+tomcat_access - Plugin to monitor the number of accesses to Tomcat
 servers.
 
 =head1 CONFIGURATION
@@ -80,8 +80,8 @@ if(!eval "require XML::Simple;") {
 my $URL      = exists $ENV{'url'}      ? $ENV{'url'}      : "http://%s:%s\@%s:%d/manager/status?XML=true";
 my $PORT     = exists $ENV{'port'}     ? $ENV{'port'}     : exists $ENV{'ports'} ? $ENV{'ports'} : 8080;
 my $HOST     = exists $ENV{'host'}     ? $ENV{'host'}     : "127.0.0.1";
-my $USER     = exists $ENV{'user'}     ? $ENV{'user'}     : "munin";
-my $PASSWORD = exists $ENV{'password'} ? $ENV{'password'} : "munin";
+my $USER     = exists $ENV{'user'}     ? $ENV{'user'}     : "tomcat";
+my $PASSWORD = exists $ENV{'password'} ? $ENV{'password'} : "s3cret";
 my $TIMEOUT  = exists $ENV{'timeout'}  ? $ENV{'timeout'}  : 30;
 
 my $url = sprintf $URL, $USER, $PASSWORD, $HOST, $PORT;
@@ -103,17 +103,14 @@ if(exists $ARGV[0] and $ARGV[0] eq "autoconf") {
 }
 
 if(exists $ARGV[0] and $ARGV[0] eq "config") {
-    print "graph_title Tomcat JVM memory\n";
-    print "graph_args --base 1024 -l 0\n";
-    print "graph_vlabel Bytes\n";
+    print "graph_title Tomcat accesses\n";
+    print "graph_args --base 1000\n";
+    print "graph_vlabel accesses / \${graph_period}\n";
     print "graph_category tomcat\n";
-    print "graph_order free used max\n";
-    print "free.label free bytes\n";
-    print "free.draw AREA\n";
-    print "used.label used bytes \n";
-    print "used.draw STACK\n";
-    print "max.label maximum bytes\n";
-    print "max.draw LINE2\n";
+    print "accesses.label Accesses\n";
+    print "accesses.type DERIVE\n";
+    print "accesses.max 1000000\n";
+    print "accesses.min 0\n";
     exit 0;
 }
 

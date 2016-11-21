@@ -3,7 +3,7 @@
 
 =head1 NAME
 
-tomcat_jvm - Plugin to monitor the memory of the JVM in Tomcat
+tomcat_volume - Plugin to monitor the volume of data sent from Tomcat
 servers.
 
 =head1 CONFIGURATION
@@ -103,17 +103,14 @@ if(exists $ARGV[0] and $ARGV[0] eq "autoconf") {
 }
 
 if(exists $ARGV[0] and $ARGV[0] eq "config") {
-    print "graph_title Tomcat JVM memory\n";
-    print "graph_args --base 1024 -l 0\n";
-    print "graph_vlabel Bytes\n";
+    print "graph_title Tomcat volume\n";
+    print "graph_args --base 1000\n";
+    print "graph_vlabel bytes per \${graph_period}\n";
     print "graph_category tomcat\n";
-    print "graph_order free used max\n";
-    print "free.label free bytes\n";
-    print "free.draw AREA\n";
-    print "used.label used bytes \n";
-    print "used.draw STACK\n";
-    print "max.label maximum bytes\n";
-    print "max.draw LINE2\n";
+    print "volume.label bytes\n";
+    print "volume.type DERIVE\n";
+    print "volume.max 1000000000\n";
+    print "volume.min 0\n";
     exit 0;
 }
 
